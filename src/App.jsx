@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { videos } from "./data/videos";
 import "./App.css";
 
@@ -8,6 +8,16 @@ export default function App() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
+  const [theme, setTheme] = useState("dark"); // 'dark' or 'light'
+
+  // Sync theme with body for background color if needed, or just let .app handle it.
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   const filteredVideos = useMemo(() => {
     return videos.filter((video) => {
@@ -18,18 +28,26 @@ export default function App() {
   }, [search, activeCategory]);
 
   return (
-    <div className="app">
+    <div className={`app ${theme}`}>
       {/* Sidebar Playlist */}
       <aside className="sidebar">
-        <h2>Playlist</h2>
+        <div className="sidebar-header" style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "20px" }}>
+          <h2 style={{ margin: 0 }}>Alok ❤️ Sneha</h2>
+          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" style={{ height: "44px" }}>
+            {theme === "dark" ? "☀️" : "🌙"}
+          </button>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Search videos..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search"
-        />
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search videos..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="search"
+          />
+          
+        </div>
 
         <div className="filter-container">
           {categories.map((category) => (
