@@ -9,6 +9,27 @@ export default function App() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
   const [theme, setTheme] = useState("dark"); // 'dark' or 'light'
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallPrompt, setShowInstallPrompt] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallPrompt(true);
+    };
+    window.addEventListener("beforeinstallprompt", handler);
+    return () => window.removeEventListener("beforeinstallprompt", handler);
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to the install prompt: ${outcome}`);
+    setDeferredPrompt(null);
+    setShowInstallPrompt(false);
+  };
 
   // Sync theme with body for background color if needed, or just let .app handle it.
   useEffect(() => {
@@ -33,9 +54,16 @@ export default function App() {
       <aside className="sidebar">
         <div className="sidebar-header" style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "20px" }}>
           <h2 style={{ margin: 0 }}>Alok ❤️ Sneha</h2>
-          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" style={{ height: "44px" }}>
-            {theme === "dark" ? "☀️" : "🌙"}
-          </button>
+          <div style={{ marginLeft: "auto", display: "flex", gap: "10px" }}>
+            {showInstallPrompt && (
+              <button className="install-btn" onClick={handleInstallClick}>
+                Install App
+              </button>
+            )}
+            <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme" style={{ height: "44px" }}>
+              {theme === "dark" ? "☀️" : "🌙"}
+            </button>
+          </div>
         </div>
 
         <div className="search-container">
