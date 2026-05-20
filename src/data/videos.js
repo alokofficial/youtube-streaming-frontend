@@ -1,22 +1,32 @@
 export const videos = [
   {
-    id: "ysz5S6PUM-U",
-    title: "React Tutorial",
-    category: "React"
+    id: "yrVJWGh4CQU",
+    title: "Casting",
+    category: "Alok-Side"
   },
   {
-    id: "ScMzIvxBSi4",
-    title: "System Design Basics",
-    category: "Architecture"
+    id: "xKeRI15U9WQ",
+    title: "Highlight",
+    category: "Alok-Side"
   },
   {
-    id: "dQw4w9WgXcQ",
-    title: "JavaScript Advanced",
-    category: "JavaScript"
+    id: "HSq11JPRO0w",
+    title: "Part-1",
+    category: "Alok-Side"
   },
   {
-    id: "M7lc1UVf-VE",
-    title: "YouTube Embed Demo",
-    category: "YouTube"
+    id: "mVRmK3uw6jw",
+    title: "Part-2",
+    category: "Alok-Side"
+  },
+  {
+    id: "q-CpUP26djs",
+    title: "Part-3",
+    category: "Alok-Side"
+  },
+  {
+    id: "_kx92sDfJ2g",
+    title: "Part-4",
+    category: "Alok-Side"
   }
 ];
