@@ -2,15 +2,20 @@ import { useMemo, useState } from "react";
 import { videos } from "./data/videos";
 import "./App.css";
 
+const categories = ["All", ...new Set(videos.map((v) => v.category))];
+
 export default function App() {
   const [search, setSearch] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState(videos[0]);
 
   const filteredVideos = useMemo(() => {
-    return videos.filter((video) =>
-      video.title.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search]);
+    return videos.filter((video) => {
+      const matchesSearch = video.title.toLowerCase().includes(search.toLowerCase());
+      const matchesCategory = activeCategory === "All" || video.category === activeCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [search, activeCategory]);
 
   return (
     <div className="app">
@@ -26,6 +31,18 @@ export default function App() {
           className="search"
         />
 
+        <div className="filter-container">
+          {categories.map((category) => (
+            <button
+              key={category}
+              className={`filter-btn ${activeCategory === category ? "active" : ""}`}
+              onClick={() => setActiveCategory(category)}
+            >
+              {category}
+            </button>
+          ))}
+        </div>
+
         <div className="playlist">
           {filteredVideos.map((video) => (
             <div
@@ -35,10 +52,13 @@ export default function App() {
               }`}
               onClick={() => setActiveVideo(video)}
             >
-              <img
-                src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-                alt={video.title}
-              />
+              <div className="thumbnail-wrapper">
+                <img
+                  src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                  alt={video.title}
+                />
+                <span className="video-duration">{video.duration}</span>
+              </div>
 
               <div>
                 <h4>{video.title}</h4>

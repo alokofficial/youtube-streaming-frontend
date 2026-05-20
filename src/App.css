@@ -39,6 +39,42 @@ body {
   outline: none;
 }
 
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 5px; /* for scrollbar */
+}
+
+.filter-container::-webkit-scrollbar {
+  height: 4px;
+}
+.filter-container::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
+
+.filter-btn {
+  background: #2a2a2a;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.filter-btn:hover {
+  background: #3a3a3a;
+}
+
+.filter-btn.active {
+  background: white;
+  color: black;
+}
+
 .playlist {
   display: flex;
   flex-direction: column;
@@ -62,9 +98,29 @@ body {
   background: #333;
 }
 
-.playlist-item img {
+.thumbnail-wrapper {
+  position: relative;
   width: 140px;
+  flex-shrink: 0;
+}
+
+.thumbnail-wrapper img {
+  width: 100%;
   border-radius: 10px;
+  display: block;
+}
+
+.video-duration {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .playlist-item h4 {
@@ -116,16 +172,35 @@ body {
 @media (max-width: 900px) {
   .app {
     flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: 320px;
-    border-right: none;
-    border-bottom: 1px solid #2a2a2a;
+    height: auto;
+    min-height: 100vh;
   }
 
   .player-section {
-    padding: 16px;
+    order: 1;
+    padding: 12px;
+    overflow-y: visible;
+  }
+
+  .video-wrapper {
+    border-radius: 12px;
+  }
+
+  .video-info h1 {
+    font-size: 20px;
+  }
+
+  .sidebar {
+    order: 2;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-top: 1px solid #2a2a2a;
+    padding: 15px;
+    overflow-y: visible;
+  }
+
+  .thumbnail-wrapper {
+    width: 130px;
   }
 }
